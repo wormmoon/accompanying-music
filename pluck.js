@@ -1,32 +1,43 @@
 // PLUCK
 class Pluck {
-  construtor() {}
+  constructor() {
+  }
 
-  trigger() {
+  trigger(now) {
     // const interval = Math.round(Math.random() * 12);
-    let frequency = intervalToFrequency(220, pickRandomItem(scale2), 1);
+    let frequency = intervalToFrequency(349.23, pickRandomItem(scale3), 1);
     var oscSine = new Tone.Oscillator(frequency, 'sine');
-    var oscSaw = new Tone.Oscillator(frequency * 0.5, 'square');
-    var lowpassFilter = new Tone.Filter(10000, "lowpass");
-    var now = Tone.context.currentTime;
-    lowpassFilter.Q.value = 5;
-    // lowpassFilter.frequency.rampTo(100, 1);
-    var gain = new Tone.Gain(0);
-    gain.gain.rampTo(0.1, 0.9);
-    gain.gain.rampTo(0, 0.1, now + 0.9);
+    var oscSaw = new Tone.Oscillator(frequency * 0.5, 'triangle');
+    var lowpassFilter = new Tone.Filter(5000, "lowpass");
+    lowpassFilter.Q.value = 2;
+    lowpassFilter.frequency.rampTo(500, 1);
+    // var peakingFilter = new Tone.Filter(300, "peaking");
+    // peakingFilter.gain.value = 0.5;
+    // vibrato
+    var vibrato = new Tone.Vibrato();
+    // const gainTriangle = new Tone.Gain(0.1);
+    var gain = new Tone.Gain(0.01);
+    gain.gain.rampTo(0.1, 0.8);
+    gain.gain.rampTo(0, 0.2, now + 1);
 
     oscSine.connect(gain);
     oscSaw.connect(gain);
+    oscSaw.connect(gain);
     gain.connect(lowpassFilter);
-    lowpassFilter.connect(output);
+    // peakingFilter.connect(lowpassFilter);
+    lowpassFilter.connect(vibrato);
+    vibrato.connect(output);
 
     oscSine.start();
     oscSaw.start();
+    oscSine.stop(now + 1.1);
+    oscSaw.stop(now + 1.1);
   }
 }
 
 const scale = [0, 2, 5, 7, 9];
 const scale2 = [-2, 0, 1, 4, 5];
+const scale3 = [0, 3, 5, 7, 10];
 // const output = Tone.context.destination;
 // const pluck = new Pluck();
 

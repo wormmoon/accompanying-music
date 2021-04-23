@@ -1,7 +1,5 @@
 // DRONE
-// let firstInteraction = true;
 let interval = 0;
-let now = Tone.context.currentTime;
 
 class Drone {
   constructor() {
@@ -9,25 +7,26 @@ class Drone {
   }
 
   trigger() {
-    let frequency = intervalToFrequency(349.23, interval, -1);
+    let frequency = intervalToFrequency(349.23, interval, 0);
     var noise = new Tone.Noise("brown");
-    const oscSine = new Tone.Oscillator(frequency, 'sine');
-    const oscSaw = new Tone.Oscillator(frequency * 2, 'triangle');
+    var oscSine = new Tone.Oscillator(frequency, 'sine');
+    var oscSaw = new Tone.Oscillator(frequency * 2, 'triangle');
     // gain
-    const gainNoise = new Tone.Gain(0.2);
-    const gainSine = new Tone.Gain(1);
-    const gainSaw = new Tone.Gain(0.6);
+    var gainNoise = new Tone.Gain(0.2);
+    var gainSine = new Tone.Gain(1);
+    var gainSaw = new Tone.Gain(0.6);
     // chorus
-    const chorus = new Tone.Chorus(2, 1.5, 0.75);
+    var chorus = new Tone.Chorus(2, 1.5, 0.75);
     // vibrato
     // const vibrato = new Tone.Vibrato();
     // filter
     var lowpassFilter = new Tone.Filter(1000, "lowpass");
     // reverb
-    const freeverb = new Tone.Freeverb()
-    freeverb.dampening = 1000;
+    // var freeverb = new Tone.Reverb()
+    // freeverb.dampening = 1000;
+    // freeverb.wet.value = 0.5;
     // panner
-    // const panner = new Tone.Panner(0);
+    var panner = new Tone.Panner(0);
 
     oscSine.connect(gainSine);
     oscSaw.connect(gainSaw);
@@ -35,11 +34,11 @@ class Drone {
     gainNoise.connect(chorus);
     gainSine.connect(chorus);
     gainSaw.connect(chorus);
-    chorus.connect(freeverb);
-    freeverb.connect(lowpassFilter);
+    chorus.connect(lowpassFilter);
+    // freeverb.connect(lowpassFilter);
     lowpassFilter.connect(this.gain);
-    // panner.connect(gain);
-    this.gain.connect(output);
+    this.gain.connect(panner);
+    panner.connect(output);
 
     oscSine.start();
     oscSaw.start();
@@ -48,15 +47,20 @@ class Drone {
 
     // gain
     this.gain.gain.rampTo(0.1, 1);
+    // panner
+    // repeated event every 8th note
+    Tone.Transport.scheduleRepeat((time) => {
+      const droneNow = Tone.context.currentTime;
+      panner.pan.rampTo(-0.5, 1);
+      panner.pan.rampTo(0.5, 2, droneNow + 1);
+      panner.pan.rampTo(0, 1, droneNow + 3);
+    }, "1n");
   }
 
   stop() {
     this.gain.gain.rampTo(0, 1);
   }
 }
-
-// transport
-// Tone.Transport.bpm.value = 54;
 
 // const playBtn = document.querySelector('.js-play-btn');
 // const drone = new Drone();
@@ -77,9 +81,9 @@ class Drone {
 //     // panner
 //     // repeated event every 8th note
 //     // Tone.Transport.scheduleRepeat((time) => {
-//     //   panner.pan.rampTo(-1, time + 2);
-//     //   panner.pan.rampTo(1, time + 4);
-//     //   panner.pan.rampTo(0, time + 2);
+//     //   panner.pan.rampTo(-1, 2);
+//     //   panner.pan.rampTo(1, 4, time + 4);
+//     //   panner.pan.rampTo(0, 2, time + 6);
 //     // }, "8n");
     
 //     // timer = setInterval(() => {
