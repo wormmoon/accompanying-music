@@ -1,6 +1,17 @@
 var img = new Image();
 img.crossOrigin = 'anonymous';
 img.src = 'images/vna2.jpeg';
+let imgSrc = '';
+
+function setImgSrc(imgSrc) {
+  if (imgSrc) {
+    img.src = imgSrc;
+    ctx.drawImage(img, 0, 0);
+  } else {
+    img.src = 'images/vna2.jpeg';
+  }
+}
+
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 img.onload = function() {
