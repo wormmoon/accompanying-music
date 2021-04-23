@@ -49,15 +49,15 @@ function audioInit() {
 	// Output
 	output = freeverb;
 
-	pickingInterval = setInterval(() => {
+	// Pluck
+	Tone.Transport.scheduleRepeat((time) => {
 		if (rgbaArray) {
-			// console.log(pick(event));
 			const note = pickNote(rgbaArray, scale3);
 			// console.log('note', note);
 			const pluckNow = Tone.context.currentTime;
 			pluck.trigger(pluckNow, note);
 		}
-	}, 1000);
+	}, "4n");
 };
 
 // root = root frequency

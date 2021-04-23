@@ -54,15 +54,18 @@ function pickNote(rgbaArray, scale) {
   return note;
 }
 
-let pickingInterval;
-// Create new pluck
-var pluck = new Pluck();
+// Get rgba value of current pixel
 let rgbaArray;
-
 canvas.addEventListener('mousemove', function(event) {
   rgbaArray = pick(event);
 });
 
-// canvas.addEventListener('click', function(event) {
-//   pick(event, selectedColor);
-// });
+// pickingInterval = setInterval(() => {
+// 	if (rgbaArray) {
+// 		// console.log(pick(event));
+// 		const note = pickNote(rgbaArray, scale3);
+// 		// console.log('note', note);
+// 		const pluckNow = Tone.context.currentTime;
+// 		pluck.trigger(pluckNow, note);
+// 	}
+// }, 1000);
