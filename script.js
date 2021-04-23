@@ -14,10 +14,10 @@ var drone = new Drone();
 // Pluck
 var pluck = new Pluck();
 // repeated event every 8th note
-Tone.Transport.scheduleRepeat((time) => {
-	const pluckNow = Tone.context.currentTime;
-	pluck.trigger(pluckNow);
-}, "2n");
+// Tone.Transport.scheduleRepeat((time) => {
+// 	const pluckNow = Tone.context.currentTime;
+// 	pluck.trigger(pluckNow);
+// }, "2n");
 
 playBtn.addEventListener('click', function() {
 	if (firstInteraction) {
@@ -48,6 +48,16 @@ function audioInit() {
 	freeverb.connect(speakers);
 	// Output
 	output = freeverb;
+
+	pickingInterval = setInterval(() => {
+		if (rgbaArray) {
+			// console.log(pick(event));
+			const note = pickNote(rgbaArray, scale3);
+			// console.log('note', note);
+			const pluckNow = Tone.context.currentTime;
+			pluck.trigger(pluckNow, note);
+		}
+	}, 1000);
 };
 
 // root = root frequency

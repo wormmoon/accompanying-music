@@ -3,9 +3,9 @@ class Pluck {
   constructor() {
   }
 
-  trigger(now) {
+  trigger(now, note) {
     // const interval = Math.round(Math.random() * 12);
-    let frequency = intervalToFrequency(349.23, pickRandomItem(scale3), 1);
+    let frequency = intervalToFrequency(349.23, scale3[note], 1);
     var oscSine = new Tone.Oscillator(frequency, 'sine');
     var oscSaw = new Tone.Oscillator(frequency * 0.5, 'triangle');
     var lowpassFilter = new Tone.Filter(5000, "lowpass");
@@ -37,7 +37,7 @@ class Pluck {
 
 const scale = [0, 2, 5, 7, 9];
 const scale2 = [-2, 0, 1, 4, 5];
-const scale3 = [0, 3, 5, 7, 10];
+const scale3 = [0, 3, 5, 7, 10, 12, 15, 17, 19, 22];
 // const output = Tone.context.destination;
 // const pluck = new Pluck();
 
