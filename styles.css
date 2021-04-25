@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "TerzoW";
+  src: url("fonts/TerzoW-Light.woff2") format("woff2"),
+       url("fonts/TerzoW-Light.woff") format("woff");
+  font-display: swap;
+}
+
+:root {
+  font-size: 16px;
+  --color-black: #100b01;
+  --color-bg: #efece6;
+  --font-family-heading: "TerzoW", serif;
+  --font-family-body: "Lora", sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-black);
+  font-size: 1.5rem;
+  font-family: var(--font-family-body);
+  padding-bottom: 6rem;
+}
+
+.btn {
+  cursor: pointer;
+  background-color: var(--color-black);
+  color: var(--color-bg);
+  border-color: var(--color-black);
+  transition: background-color 0.2s ease-out, color 0.2s ease-out;
+  padding: 8px 16px;
+  margin-right: 8px;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+  background-color: var(--color-bg);
+  color: var(--color-black);
+}
+
+.main-container {
+  max-width: 1220px;
+  padding: 0 5%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-container {
+  max-width: 54rem;
+}
+
+.text-container p {
+  margin-top: 1em;
+}
+
+.heading {
+  font-family: var(--font-family-heading);
+  font-size: 9.5rem; /* 140px */
+  margin-top: 0.5em;
+  font-weight: 200;
+}
+
+.canvas {
+  border: solid 6px var(--color-black);
+  margin-top: 3.5em;
+}
+
+.controls {
+  margin-top: 2.5em;
+}
